@@ -62,3 +62,40 @@ btn.addEventListener("click", function(e) {
   randomNumber = getRandomInt(0, 12);
   changeChild(randomIcon, randomNumber);
 });
+
+let width = document.querySelector(".width");
+let height = document.querySelector(".height");
+let btnChange = document.querySelector(".btnChange");
+let card = document.querySelector(".card");
+console.log(btnChange);
+
+// btnChange.addEventListener("click", function(e) {
+//   e.preventDefault();
+//   alert("Llega");
+//   //   randomIcon = getRandomInt(0, 3);
+//   //   randomNumber = getRandomInt(0, 12);
+//   //   changeChild(randomIcon, randomNumber);
+// });
+
+btnChange.addEventListener("click", e => {
+  e.preventDefault();
+
+  if (width.value < 200 || width.value > height.value || height.value < 200) {
+    if (width.value < 200 && height.value < 200) {
+      height.style.backgroundColor = "#FFA8A8";
+      width.style.backgroundColor = "#FFA8A8";
+    } else if (width.value < 200) {
+      width.style.backgroundColor = "#FFA8A8";
+    } else {
+      height.style.backgroundColor = "#FFA8A8";
+    }
+    if (width.value > height.value) {
+      alert("La altura no puede ser menor al ancho");
+    }
+  } else {
+    height.style.backgroundColor = "#ADFFA8";
+    width.style.backgroundColor = "#ADFFA8";
+    card.style.width = width.value + "px";
+    card.style.height = height.value + "px";
+  }
+});
