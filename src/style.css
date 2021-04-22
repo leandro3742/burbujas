@@ -6,6 +6,9 @@ body {
 i {
   font-size: 75px;
 }
+.red {
+  color: red;
+}
 h1 {
   font-size: 100px;
 }

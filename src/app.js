@@ -6,11 +6,6 @@ import "./assets/img/rigo-baby.jpg";
 import "./assets/img/4geeks.ico";
 import { Button } from "bootstrap";
 
-let number = document.querySelector(".number");
-let icon = document.querySelector(".icon");
-let iconDown = document.querySelector(".iconDown");
-let btn = document.querySelector(".btn");
-
 let randomIcon;
 let randomNumber;
 
@@ -30,10 +25,25 @@ let numeros = [
   "Q",
   "K"
 ];
+let div = document.querySelector("#divCard");
+
+let carta_html = `
+ <div class="card rounded mt-4 mx-2">
+          <div class=""><i class="icon ml-2"></i></div>
+
+          <div class="d-flex justify-content-center align-items-center">
+            <h1 class="number"></h1>
+          </div>
+          <div class="down d-flex justify-content-start">
+            <i class="iconDown ml-2"></i>
+          </div>
+</div>
+ `;
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
 function changeChild(randomIcon, randomNumber) {
   if (randomIcon == 2 || randomIcon == 3) {
     icon.style.color = "red";
@@ -50,52 +60,31 @@ function changeChild(randomIcon, randomNumber) {
   iconDown.innerHTML = iconos[randomIcon];
 }
 
-window.onload = function() {
-  randomIcon = getRandomInt(0, 3);
-  randomNumber = getRandomInt(0, 12);
-  changeChild(randomIcon, randomNumber);
-};
-
-btn.addEventListener("click", function(e) {
-  e.preventDefault();
-  randomIcon = getRandomInt(0, 3);
-  randomNumber = getRandomInt(0, 12);
-  changeChild(randomIcon, randomNumber);
-});
-
-let width = document.querySelector(".width");
-let height = document.querySelector(".height");
+let numero_elegido = document.querySelector(".numero");
 let btnChange = document.querySelector(".btnChange");
-let card = document.querySelector(".card");
-console.log(btnChange);
-
-// btnChange.addEventListener("click", function(e) {
-//   e.preventDefault();
-//   alert("Llega");
-//   //   randomIcon = getRandomInt(0, 3);
-//   //   randomNumber = getRandomInt(0, 12);
-//   //   changeChild(randomIcon, randomNumber);
-// });
-
+let contador = 0;
 btnChange.addEventListener("click", e => {
   e.preventDefault();
+  randomIcon = getRandomInt(0, 3); //Creo el numero al azar para las pintas
+  div.innerHTML = div.innerHTML + carta_html; //Le agrego al html la nueva carta vacia
 
-  if (width.value < 200 || width.value > height.value || height.value < 200) {
-    if (width.value < 200 && height.value < 200) {
-      height.style.backgroundColor = "#FFA8A8";
-      width.style.backgroundColor = "#FFA8A8";
-    } else if (width.value < 200) {
-      width.style.backgroundColor = "#FFA8A8";
-    } else {
-      height.style.backgroundColor = "#FFA8A8";
-    }
-    if (width.value > height.value) {
-      alert("La altura no puede ser menor al ancho");
-    }
+  let number = document.querySelectorAll(".number");
+  let icon = document.querySelectorAll(".icon");
+  let iconDown = document.querySelectorAll(".iconDown");
+
+  number[contador].innerHTML = numero_elegido.value;
+  icon[contador].innerHTML = iconos[randomIcon];
+  iconDown[contador].innerHTML = iconos[randomIcon];
+
+  //   Aca cambio los colores de las pintas y del numero
+  if (randomIcon == 2 || randomIcon == 3) {
+    icon[contador].style.color = "red";
+    iconDown[contador].style.color = "red";
+    number[contador].style.color = "red";
   } else {
-    height.style.backgroundColor = "#ADFFA8";
-    width.style.backgroundColor = "#ADFFA8";
-    card.style.width = width.value + "px";
-    card.style.height = height.value + "px";
+    icon[contador].style.color = "black";
+    iconDown[contador].style.color = "black";
+    number[contador].style.color = "black";
   }
+  contador++;
 });
