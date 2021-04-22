@@ -1,1 +1,22 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  background-color: green;
+}
+i {
+  font-size: 75px;
+}
+h1 {
+  font-size: 100px;
+}
+.card {
+  width: 250px;
+  height: 350px;
+  border: 2px solid black;
+  display: grid;
+  grid-template-rows: 33% 34% 33%;
+  /* background-color: red; */
+}
+.down {
+  transform: rotate(180deg);
+}
