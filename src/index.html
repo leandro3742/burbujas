@@ -16,13 +16,23 @@
     <div
       class="wrapper d-flex flex-column justify-content-center align-items-center"
     >
-      <form class="d-flex flex-column">
-        <input class="numero mb-1" placeholder="Width" type="number" />
-        <button class="btnChange btn btn-secondary my-2">
+      <form>
+        <input
+          class="numero mb-1 "
+          placeholder="Numero de cartas"
+          type="number"
+        />
+        <button class="btnChange btn btn-secondary btn-sm my-2">
           Change card
         </button>
+
+        <button type="button" class="btnSort btn btn-secondary btn-sm my-2">
+          Sort
+        </button>
       </form>
-      <div id="divCard" class="d-flex justify-content-center"></div>
+      <div id="divCard" class="d-flex justify-content-center my-5"></div>
+      <i class="tituloBubble"> Sort Bubble </i>
+      <div id="divBubble" class="d-flex justify-content-center"></div>
     </div>
   </body>
 </html>
