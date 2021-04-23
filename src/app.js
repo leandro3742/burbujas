@@ -30,7 +30,6 @@ let div = document.querySelector("#divCard");
 let carta_html = `
 <div class="card rounded mt-4 mx-2 shadow-1">
     <div class=""><i class="icon ml-2"></i></div>
-
     <div class="d-flex justify-content-center align-items-center">
         <h1 class="number"></h1>
     </div>
@@ -38,7 +37,6 @@ let carta_html = `
         <i class="iconDown ml-2"></i>
     </div>
 </div>
-
  `;
 
 const bubbleSort = arr => {
@@ -75,7 +73,6 @@ btnChange.addEventListener("click", e => {
   contador = 0;
   div.innerHTML = ``;
   while (contador < numero_elegido.value) {
-    console.log("llega");
     randomIcon = getRandomInt(0, 3); //Creo el numero al azar para las pintas
     randomNumber = getRandomInt(0, 12);
     div.innerHTML = div.innerHTML + carta_html; //Le agrego al html la nueva carta vacia
@@ -103,16 +100,22 @@ btnChange.addEventListener("click", e => {
 
 let btnSort = document.querySelector(".btnSort");
 let que_no_se_repita = 0;
+
 btnSort.addEventListener("click", e => {
   let titulo = document.querySelector(".tituloBubble");
   titulo.style.display = "block";
 
-  let number = document.querySelectorAll(".number");
+  let number = document.querySelectorAll("#divCard .number");
+  console.log("num" + number.length);
   let icon = document.querySelectorAll(".icon");
   let arrGeneral = []; //En arreglo general voy a guardar el numero, palo, color
 
   let cont = 0;
-
+  while (cont < number.length) {
+    console.log(number[cont].innerHTML);
+    cont++;
+  }
+  cont = 0;
   console.log("cont: " + cont);
   while (cont < number.length) {
     // guardo el numero, palo y el color de la carta
