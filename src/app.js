@@ -39,6 +39,44 @@ let carta_html = `
 </div>
  `;
 
+//FUNCIONES PARA CAMBIAR DE STRING A ENTEROS
+function cambio_a_entero(numero) {
+  switch (numero) {
+    case "10":
+      numero = 10;
+      break;
+    case "J":
+      numero = 11;
+      break;
+    case "Q":
+      numero = 12;
+      break;
+    case "K":
+      numero = 13;
+      break;
+  }
+  return numero;
+}
+
+function cambio_a_string(numero) {
+  switch (numero) {
+    case 10:
+      numero = "10";
+      break;
+    case 11:
+      numero = "J";
+      break;
+    case 12:
+      numero = "Q";
+      break;
+    case 13:
+      numero = "K";
+      break;
+  }
+  return numero;
+}
+
+// Declaro los ordenamientos //
 const bubbleSort = arr => {
   let wall = arr.length - 1; //we start the wall at the end of the array
   while (wall > 0) {
@@ -57,6 +95,40 @@ const bubbleSort = arr => {
   return arr;
 };
 
+const selectionSort = arr => {
+  for (let j = 0; j < arr.length; ++j) {
+    let i = (iMin = j);
+    for (++i; i < arr.length; ++i) {
+      arr[i] < arr[iMin] && (iMin = i);
+    }
+    [arr[j], arr[iMin]] = [arr[iMin], arr[j]];
+  }
+
+  return arr;
+};
+
+function burbuja(arreglo) {
+  //recorreremos todos los elementos hasta n-1
+  let i;
+  let j;
+  let aux;
+  for (i = 0; i < arreglo.length - 1; i++)
+    //recorreremos todos los elementos hasta n-i, tomar en cuenta los ultimos no tiene caso ya que ya estan acomodados.
+    for (j = 0; j < arreglo.length - j; j++) {
+      //comparamos
+      if (arreglo[j][0] > arreglo[j + 1][0]) {
+        //guardamos el numero mayor en el auxiliar
+        aux = arreglo[j];
+        //guardamos el numero menor en el lugar correspondiente
+        arreglo[j] = arreglo[j + 1];
+        //asignamos el auxiliar en el lugar correspondiente
+        arreglo[j + 1] = aux;
+      }
+    }
+
+  return arreglo;
+}
+//FIN DE ORDENAMIENTOS //
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -64,8 +136,8 @@ function getRandomInt(min, max) {
 let numero_elegido = document.querySelector(".numero");
 let btnChange = document.querySelector(".btnChange");
 let contador = 0;
-let ultima_carta;
-
+var contadorBubble = 0;
+//BOTON PARA CREAR CARTAS //
 btnChange.addEventListener("click", e => {
   e.preventDefault();
   console.log(contador);
@@ -98,25 +170,17 @@ btnChange.addEventListener("click", e => {
   }
 });
 
+//BOTON PARA ORDENAR BURBUJAS //
 let btnSort = document.querySelector(".btnSort");
-let que_no_se_repita = 0;
-
 btnSort.addEventListener("click", e => {
   let titulo = document.querySelector(".tituloBubble");
   titulo.style.display = "block";
 
   let number = document.querySelectorAll("#divCard .number");
-  console.log("num" + number.length);
   let icon = document.querySelectorAll(".icon");
   let arrGeneral = []; //En arreglo general voy a guardar el numero, palo, color
 
   let cont = 0;
-  while (cont < number.length) {
-    console.log(number[cont].innerHTML);
-    cont++;
-  }
-  cont = 0;
-  console.log("cont: " + cont);
   while (cont < number.length) {
     // guardo el numero, palo y el color de la carta
     arrGeneral[cont] = [
@@ -126,15 +190,110 @@ btnSort.addEventListener("click", e => {
     ];
     cont++;
   }
-
-  bubbleSort(arrGeneral); //Genero un arreglo ordenado
+  let ite = 0;
+  while (ite < arrGeneral.length) {
+    let sub_arr = arrGeneral[ite];
+    let palos = sub_arr[1];
+    let color = sub_arr[2];
+    console.log("ite: " + sub_arr[0]);
+    sub_arr[0] = cambio_a_entero(sub_arr[0]);
+    arrGeneral[ite] = [sub_arr[0], palos, color];
+    ite++;
+  }
+  arrGeneral = burbuja(arrGeneral);
+  //   bubbleSort(arrGeneral); //Genero un arreglo ordenado
+  ite = 0;
+  while (ite < arrGeneral.length) {
+    let sub_arr = arrGeneral[ite];
+    let palos = sub_arr[1];
+    let color = sub_arr[2];
+    console.log("ite: " + sub_arr[0]);
+    sub_arr[0] = cambio_a_string(sub_arr[0]);
+    arrGeneral[ite] = [sub_arr[0], palos, color];
+    ite++;
+  }
 
   let divBubble = document.querySelector("#divBubble"); //Aca van las cartas
 
   cont = 0;
   let contBubble = contador; //Creo una variable que sea igual a la cantidad de cartas que hay, para solo cambiar de ahi para adelante
   divBubble.innerHTML = ""; //Le agrego al html la nueva carta vacia
-  console.log("arr: " + arrGeneral.length);
+  while (cont < arrGeneral.length) {
+    divBubble.innerHTML = divBubble.innerHTML + carta_html; //Le agrego al html la nueva carta vacia
+
+    number = document.querySelectorAll(".number");
+    icon = document.querySelectorAll(".icon");
+    let iconDown = document.querySelectorAll(".iconDown");
+
+    let arreglo_subdividido = arrGeneral[cont]; // Subdivido arrGeneral para poder trabajar mas comodo
+
+    number[contBubble].innerHTML = arreglo_subdividido[0];
+    icon[contBubble].innerHTML = arreglo_subdividido[1];
+    iconDown[contBubble].innerHTML = arreglo_subdividido[1];
+
+    number[contBubble].style.color = arreglo_subdividido[2];
+    icon[contBubble].style.color = arreglo_subdividido[2];
+    iconDown[contBubble].style.color = arreglo_subdividido[2];
+
+    cont++;
+    contBubble++;
+  }
+  contadorBubble = contador;
+});
+
+//BOTON PARA ORDENAR SELECTION//
+let btnSelectionSort = document.querySelector(".btnSelectionSort");
+btnSelectionSort.addEventListener("click", e => {
+  e.preventDefault();
+  let titulo = document.querySelector(".tituloSelection");
+  titulo.style.display = "block";
+
+  let number = document.querySelectorAll("#divCard .number");
+  let icon = document.querySelectorAll(".icon");
+  let arrGeneral = []; //En arreglo general voy a guardar el numero, palo, color
+
+  let cont = 0;
+  while (cont < number.length) {
+    // guardo el numero, palo y el color de la carta
+    arrGeneral[cont] = [
+      number[cont].innerHTML,
+      icon[cont].innerHTML,
+      icon[cont].style.color
+    ];
+    cont++;
+  }
+  //   selectionSort(arrGeneral);
+  console.log(arrGeneral);
+  console.log(arrGeneral[0]);
+  let ite = 0;
+  while (ite < arrGeneral.length) {
+    let sub_arr = arrGeneral[ite];
+    let palos = sub_arr[1];
+    let color = sub_arr[2];
+    console.log("ite: " + sub_arr[0]);
+    sub_arr[0] = cambio_a_entero(sub_arr[0]);
+    arrGeneral[ite] = [sub_arr[0], palos, color];
+    ite++;
+  }
+  arrGeneral = burbuja(arrGeneral);
+  //   bubbleSort(arrGeneral); //Genero un arreglo ordenado
+  ite = 0;
+  while (ite < arrGeneral.length) {
+    let sub_arr = arrGeneral[ite];
+    let palos = sub_arr[1];
+    let color = sub_arr[2];
+    console.log("ite: " + sub_arr[0]);
+    sub_arr[0] = cambio_a_string(sub_arr[0]);
+    arrGeneral[ite] = [sub_arr[0], palos, color];
+    ite++;
+  }
+
+  let divBubble = document.querySelector("#divSelection"); //Aca van las cartas
+
+  cont = 0;
+  let contBubble = contador + contadorBubble; //Creo una variable que sea igual a la cantidad de cartas que hay, para solo cambiar de ahi para adelante
+  console.log(contBubble + " este me importa");
+  divBubble.innerHTML = ""; //Le agrego al html la nueva carta vacia
   while (cont < arrGeneral.length) {
     divBubble.innerHTML = divBubble.innerHTML + carta_html; //Le agrego al html la nueva carta vacia
 

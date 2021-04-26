@@ -19,7 +19,8 @@ h1 {
   display: grid;
   grid-template-rows: 33% 34% 33%;
 }
-.tituloBubble {
+.tituloBubble,
+.tituloSelection {
   display: none;
   color: white;
 }
